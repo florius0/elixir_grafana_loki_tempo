@@ -17,8 +17,10 @@ defmodule FF.LoggerFormatter do
     error: "ERROR"
   ]
 
+  def init(opts), do: opts
+
   for {level, gcp_level} <- @severity_levels do
-    def format_event(unquote(level), msg, ts, md, md_keys) do
+    def format_event(unquote(level), msg, ts, md, md_keys, _state) do
       Map.merge(
         %{
           time: format_timestamp(ts),
@@ -30,7 +32,7 @@ defmodule FF.LoggerFormatter do
     end
   end
 
-  def format_event(_level, msg, ts, md, md_keys) do
+  def format_event(_level, msg, ts, md, md_keys, _state) do
     Map.merge(
       %{
         time: format_timestamp(ts),

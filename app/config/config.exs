@@ -57,12 +57,16 @@ config :logger_json, :backend,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :opentelemetry, :resource, service: %{name: "fish_finder"}
+config :opentelemetry,
+  resource: [
+    service: %{name: "fish_finder"}
+  ],
+  span_processor: :batch,
+  traces_exporter: :otlp
 
-config :opentelemetry, :processors,
-  otel_batch_processor: %{
-    exporter: {:opentelemetry_exporter, %{endpoints: [{:http, 'tempo', 55681, []}]}}
-  }
+config :opentelemetry_exporter,
+  otlp_protocol: :http_protobuf,
+  otlp_endpoint: "http://tempo:4318"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

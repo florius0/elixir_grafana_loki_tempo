@@ -34,7 +34,7 @@ services:
       - elixir-build:/app/_build/
 
   prometheus:
-    image: prom/prometheus:v2.20.1
+    image: prom/prometheus:latest
     ports:
       - "9090:9090"
     volumes:
@@ -63,7 +63,7 @@ services:
       - ./data/tempo-data:/tmp/tempo
     ports:
       - 8000:8000 # tempo
-      - 55681:55681 # otlp http
+      - 4318:4318 # otlp http
 
   grafana:
     image: grafana/grafana:latest
