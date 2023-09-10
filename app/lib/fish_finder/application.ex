@@ -6,9 +6,7 @@ defmodule FF.Application do
   use Application
 
   @impl true
-  def start(_type, env) do
-    setup_metrics(env)
-
+  def start(_type, _env) do
     children = [
       # Start the Telemetry supervisor
       FFWeb.Telemetry,
@@ -24,6 +22,12 @@ defmodule FF.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: FF.Supervisor]
     Supervisor.start_link(children, opts)
+  after
+    OpentelemetryLoggerMetadata.setup()
+    OpentelemetryPhoenix.setup()
+
+    Sibyl.Handlers.attach_all_events(Sibyl.Handlers.OpenTelemetry)
+    # OpentelemetryPlug.setup()
   end
 
   # Tell Phoenix to update the endpoint configuration
@@ -32,15 +36,5 @@ defmodule FF.Application do
   def config_change(changed, _new, removed) do
     FFWeb.Endpoint.config_change(changed, removed)
     :ok
-  end
-
-  defp setup_metrics(:test), do: nil
-
-  defp setup_metrics(_) do
-    OpentelemetryLoggerMetadata.setup()
-    OpentelemetryPhoenix.setup()
-    FFWeb.MetricsExporter.setup()
-    FFWeb.PipelineInstrumenter.setup()
-    # OpentelemetryPlug.setup()
   end
 end

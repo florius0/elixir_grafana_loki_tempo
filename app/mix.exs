@@ -42,18 +42,16 @@ defmodule FF.MixProject do
       {:logger_json, "~> 5.1"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
+      {:telemetry_metrics_prometheus, "~> 1.1"},
+      {:sibyl, "~> 0.1"},
       {:opentelemetry, "~> 1.3"},
       {:opentelemetry_api, "~> 1.2"},
-      {:open_telemetry_decorator, "~> 1.4"},
       {:opentelemetry_exporter, "~> 1.6"},
-      # {:opentelemetry_telemetry, "~> 1.0"},
+      {:opentelemetry_telemetry, "~> 1.0"},
       {:opentelemetry_phoenix, "~> 1.1"},
-      {:opentelemetry_logger_metadata, "~> 0.1"},
+      {:opentelemetry_logger_metadata, "~> 0.1"}
       # {:opentelemetry_ecto, "~> 1.0.0-rc.3"},
       # {:opentelemetry_plug, github: "opentelemetry-beam/opentelemetry_plug", override: true},
-      {:prometheus_ex,
-       github: "lanodan/prometheus.ex", branch: "fix/elixir-1.14", override: true},
-      {:prometheus_plugs, "~> 1.1"}
     ]
   end
 

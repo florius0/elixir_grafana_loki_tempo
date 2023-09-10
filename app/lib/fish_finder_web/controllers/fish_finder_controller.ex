@@ -1,9 +1,8 @@
 defmodule FFWeb.FishFinderController do
   use FFWeb, :controller
 
-  use OpenTelemetryDecorator
+  use Sibyl
 
-  require OpenTelemetry.Tracer, as: Tracer
   require Logger
 
   @fishery [
@@ -40,15 +39,15 @@ defmodule FFWeb.FishFinderController do
     "Mullet"
   ]
 
-  @decorate with_span("Start")
+  @decorate trace()
   def index(conn, _params) do
-    small_fish = Tracer.with_span("casting", do: find_fish())
-    large_fish = Tracer.with_span("casting", do: find_fish("large"))
+    small_fish = find_fish()
+    large_fish = find_fish("large")
 
-    Tracer.with_span("releasing all the 🐡", do: json(conn, small_fish ++ large_fish))
+    json(conn, small_fish ++ large_fish)
   end
 
-  @decorate with_span("🎣 ")
+  @decorate trace()
   defp find_fish(hope \\ "smol")
 
   defp find_fish(hope) do
