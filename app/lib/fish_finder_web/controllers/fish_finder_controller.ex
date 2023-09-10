@@ -1,6 +1,8 @@
 defmodule FFWeb.FishFinderController do
   use FFWeb, :controller
 
+  use OpenTelemetryDecorator
+
   require OpenTelemetry.Tracer, as: Tracer
   require Logger
 
@@ -38,30 +40,28 @@ defmodule FFWeb.FishFinderController do
     "Mullet"
   ]
 
+  @decorate with_span("Start")
   def index(conn, _params) do
-    Tracer.with_span "Start" do
-      small_fish = Tracer.with_span("casting", do: find_fish())
-      large_fish = Tracer.with_span("casting", do: find_fish("large"))
+    small_fish = Tracer.with_span("casting", do: find_fish())
+    large_fish = Tracer.with_span("casting", do: find_fish("large"))
 
-      Tracer.with_span("releasing all the 🐡", do: json(conn, small_fish ++ large_fish))
-    end
+    Tracer.with_span("releasing all the 🐡", do: json(conn, small_fish ++ large_fish))
   end
 
+  @decorate with_span("🎣 ")
   defp find_fish(hope \\ "smol")
 
   defp find_fish(hope) do
-    Tracer.with_span "🎣 " do
-      # "Focus" on catching a fish...
-      :timer.sleep(:rand.uniform(700))
+    # "Focus" on catching a fish...
+    :timer.sleep(:rand.uniform(700))
 
-      captures =
-        @fishery
-        |> Enum.shuffle()
-        |> Enum.take_random(:rand.uniform(10))
+    captures =
+      @fishery
+      |> Enum.shuffle()
+      |> Enum.take_random(:rand.uniform(10))
 
-      Logger.info("#{hope} fishy captured: #{Enum.join(captures, ",")}")
+    Logger.info("#{hope} fishy captured: #{Enum.join(captures, ",")}")
 
-      captures
-    end
+    captures
   end
 end

@@ -44,6 +44,7 @@ defmodule FF.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:opentelemetry, "~> 1.3"},
       {:opentelemetry_api, "~> 1.2"},
+      {:open_telemetry_decorator, "~> 1.4"},
       {:opentelemetry_exporter, "~> 1.6"},
       # {:opentelemetry_telemetry, "~> 1.0"},
       {:opentelemetry_phoenix, "~> 1.1"},
