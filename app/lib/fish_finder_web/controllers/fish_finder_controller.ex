@@ -47,9 +47,9 @@ defmodule FFWeb.FishFinderController do
     json(conn, small_fish ++ large_fish)
   end
 
-  @decorate trace()
   defp find_fish(hope \\ "smol")
 
+  @decorate trace()
   defp find_fish(hope) do
     # "Focus" on catching a fish...
     :timer.sleep(:rand.uniform(700))

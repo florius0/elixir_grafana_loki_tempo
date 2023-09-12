@@ -20,7 +20,7 @@ defmodule FF.MixProject do
   def application do
     [
       mod: {FF.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :tls_certificate_check]
     ]
   end
 
@@ -43,13 +43,15 @@ defmodule FF.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:telemetry_metrics_prometheus, "~> 1.1"},
-      {:sibyl, "~> 0.1"},
+      {:sibyl, github: "florius0/sibyl"},
       {:opentelemetry, "~> 1.3"},
       {:opentelemetry_api, "~> 1.2"},
+      {:opentelemetry_process_propagator, "~> 0.2", override: true},
       {:opentelemetry_exporter, "~> 1.6"},
       {:opentelemetry_telemetry, "~> 1.0"},
       {:opentelemetry_phoenix, "~> 1.1"},
-      {:opentelemetry_logger_metadata, "~> 0.1"}
+      {:opentelemetry_logger_metadata, "~> 0.1"},
+      {:ssl_verify_fun, "~> 1.1.6", hex: "ssl_verify_fun", override: true, repo: "hexpm"}
       # {:opentelemetry_ecto, "~> 1.0.0-rc.3"},
       # {:opentelemetry_plug, github: "opentelemetry-beam/opentelemetry_plug", override: true},
     ]

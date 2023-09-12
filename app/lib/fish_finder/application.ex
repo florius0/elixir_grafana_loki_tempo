@@ -23,11 +23,9 @@ defmodule FF.Application do
     opts = [strategy: :one_for_one, name: FF.Supervisor]
     Supervisor.start_link(children, opts)
   after
-    OpentelemetryLoggerMetadata.setup()
-    OpentelemetryPhoenix.setup()
+    :ok = Sibyl.Handlers.attach_all_events(Sibyl.Handlers.OpenTelemetry)
 
-    Sibyl.Handlers.attach_all_events(Sibyl.Handlers.OpenTelemetry)
-    # OpentelemetryPlug.setup()
+    OpentelemetryLoggerMetadata.setup()
   end
 
   # Tell Phoenix to update the endpoint configuration
